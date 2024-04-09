@@ -15,6 +15,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+        enum: ["admin", "user"]
+    },
     deleteFlag: {
         type: Boolean,
         default: false,
@@ -26,6 +31,13 @@ const userSchema = new Schema({
         }
     ]
 }, { timestamps: true });
+
+userSchema.pre("save", function(next) {
+    if(!this.role.trim().length) {
+        this.role = "user"
+    }
+    next()
+})
 
 const User = mongoose.model("User", userSchema)
 
