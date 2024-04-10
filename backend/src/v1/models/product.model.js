@@ -14,7 +14,7 @@ const productSchema = new Schema({
     nameNoUni: {
         type: String,
     },
-    categoryLv: {
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
     },
