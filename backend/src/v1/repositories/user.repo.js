@@ -33,7 +33,6 @@ export const UpdateUserPassword = async ({ password, id }) => {
 }
 
 export const UpdateUsername = async ({ username, id }) => {
-    console.log({ username, id });
     const query = { _id: id, deleteFlag: false },
         update = { fullName: username},
         options = { new: true };

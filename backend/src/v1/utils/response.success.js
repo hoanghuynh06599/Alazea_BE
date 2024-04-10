@@ -5,7 +5,7 @@ export class SuccessResponse {
         message,
         statusCode = StatusCodes.OK,
         reasonStatusCode = ReasonPhrases.OK,
-        data = {}
+        data
     }){
         this.message = message ? message : reasonStatusCode;
         this.status = statusCode;
@@ -14,5 +14,16 @@ export class SuccessResponse {
 
     send(res, headers = {}) {
         return res.status(this.status).json(this)
+    }
+}
+
+export class CreatedSuccessResponse extends SuccessResponse {
+    constructor({
+        message,
+        statusCode = StatusCodes.CREATED,
+        reasonStatusCode = ReasonPhrases.CREATED,
+        data
+    }) {
+        super({message, statusCode, reasonStatusCode, data})
     }
 }

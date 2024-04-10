@@ -7,7 +7,6 @@ import { MESSAGES } from "../constants/constants.js"
 export const isAdmin = asyncHandler(async (req, res, next) => {
     const clientId = await getUserIdFromHeader(req)
     const foundUser = await FindUserById({ id: clientId })
-    console.log({ clientId });
     if (foundUser.role === "admin") {
         next()
     } else {

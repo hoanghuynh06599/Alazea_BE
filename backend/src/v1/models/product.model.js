@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { slug } from "../utils/commonUtils";
+import { slug } from "../utils/commonUtils.js";
 
 const { Schema } = mongoose;
 
@@ -35,6 +35,11 @@ const productSchema = new Schema({
         required: true,
         default: 0,
     },
+    discount: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -44,7 +49,7 @@ const productSchema = new Schema({
 
 productSchema.pre('save', function (next) {
     this.slug = slug(this.name)
-    this.nameNoUni = this.slug.replace("-", " ")
+    this.nameNoUni = this.slug.replaceAll("-", " ")
     next()
 })
 
