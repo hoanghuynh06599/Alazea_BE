@@ -5,6 +5,7 @@ import authRoute from "./routes/auth.routes.js";
 import categoryRoute from "./routes/category.routes.js";
 import cors from "cors";
 import productRoute from "./routes/product.routes.js";
+import cartRoute from "./routes/cart.routes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors({ origin: '*' }))
 app.use("/api/v1/auth", authRoute)
 app.use("/api/v1/categories", categoryRoute)
 app.use("/api/v1/products", productRoute)
+app.use("/api/v1/cart", cartRoute)
 
 app.get("/api/v1/healthCheck", (req, res) => {
     res.status(200).json({
