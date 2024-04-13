@@ -8,12 +8,12 @@ import {
     GetProductBySlug,
     UpdateProduct
 } from "../repositories/product.repo.js"
-import { 
-    ConflictErrorRequest, 
-    NotFoundErrorRequest, 
-    NotImplementedErrorRequest 
+import {
+    ConflictErrorRequest,
+    NotFoundErrorRequest,
+    NotImplementedErrorRequest
 } from "../utils/response.error.js"
-import { MESSAGES } from "../constants/constants.js"
+import { MESSAGES, PAGING } from "../constants/constants.js"
 
 export const createProductService = asyncHandler(async ({
     name,
@@ -43,8 +43,22 @@ export const createProductService = asyncHandler(async ({
     return productCreated
 })
 
-export const getProductsService = asyncHandler(async () => {
-    return await GetAllProducts()
+export const getProductsService = asyncHandler(async ({ filters, sort, limit = PAGING.LIMIT, page = PAGING.PAGE }) => {
+    const { products, totalResults, totalDocuments } = await GetAllProducts({ filters, sort, limit, page })
+
+    const paging = {
+        total: totalDocuments,
+        totalResults,
+        limit: Number(limit),
+        currPage: Number(page),
+        ...(page === 1 ? {} : { prevPage: page - 1 }),
+        ...((page * limit) >= totalDocuments ? {} : { nextPage: page + 1 })
+    }
+
+    return {
+        products,
+        paging
+    }
 })
 
 export const getProductBySlugService = asyncHandler(async ({ slug }) => {

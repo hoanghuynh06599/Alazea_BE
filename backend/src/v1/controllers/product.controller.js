@@ -10,6 +10,8 @@ import {
 import { getUserIdFromHeader } from "../utils/auth.js";
 import { CreatedSuccessResponse, SuccessResponse } from "../utils/response.success.js";
 import { MESSAGES } from "../constants/constants.js";
+import { removeUnicode } from "../utils/commonUtils.js";
+import { FindCategoryBySlug } from "../repositories/category.repo.js";
 
 export const createProductCtrl = asyncHandler(async (req, res) => {
     const {
@@ -39,10 +41,42 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
 })
 
 export const getAllProductsCtrl = asyncHandler(async (req, res) => {
-    const products = await getProductsService()
+    const {
+        name,
+        category,
+        startPrice,
+        endPrice,
+        sort,
+        limit,
+        page
+    } = req.query
+
+    const filters = {
+        deleteFlag: false,
+    }
+
+    if (name) {
+        filters.nameNoUni = { $regex: removeUnicode({ text: name }), $options: "i" }
+    }
+
+    if (category) {
+        const foundCategory = await FindCategoryBySlug({ slug: category })
+        filters.category = foundCategory.id
+    }
+
+    if (startPrice && endPrice) {
+        filters.price = { $gte: startPrice, $lte: endPrice }
+    } else if (startPrice) {
+        filters.price = { $gte: startPrice }
+    } else if (endPrice) {
+        filters.price = { $lte: endPrice }
+    }
+
+    const { products, paging } = await getProductsService({ filters, sort, limit, page })
 
     new SuccessResponse({
         message: MESSAGES.DATA_CREATE_SUCCESS,
+        pagination: paging,
         data: products,
     }).send(res)
 })

@@ -8,6 +8,7 @@ import {
 } from "../services/category.service.js"
 import { SuccessResponse } from "../utils/response.success.js"
 import { MESSAGES } from "../constants/constants.js"
+import { removeUnicode } from "../utils/commonUtils.js"
 
 export const createNewCategoryCtrl = asyncHandler(async (req, res) => {
     const { categoryName, products } = req.body
@@ -24,10 +25,22 @@ export const createNewCategoryCtrl = asyncHandler(async (req, res) => {
 })
 
 export const getCategoriesCtrl = asyncHandler(async (req, res) => {
-    const categories = await getCategoriesService()
+    const {
+        name,
+        limit,
+        page
+    } = req.query
 
+    let filters = { deleteFlag: false }
+    if (name) {
+        filters.name = { $regex: removeUnicode(name), $options: 'i' }
+    }
+
+    const { categories, paging } = await getCategoriesService({ filters, limit, page })
+    
     new SuccessResponse({
         message: MESSAGES.GET_DATA_SUCCESS,
+        pagination: paging,
         data: categories,
     }).send(res)
 })

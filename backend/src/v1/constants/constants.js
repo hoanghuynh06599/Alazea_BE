@@ -1,3 +1,8 @@
+export const PAGING = {
+    LIMIT: 10,
+    PAGE: 1
+}
+
 export const MESSAGES = {
 
     // Fail
@@ -15,6 +20,12 @@ export const MESSAGES = {
     NO_PERMISSION: "No permissions to perform",
     UNAUTHORIZED: "Token is expired or invalid",
     NOT_FOUND_CLIENT_ID: "No client id found in request headers",
+    CAN_NOT_STATUS_PROCESSING: "The current order status invalid to change to processing",
+    CAN_NOT_STATUS_SHIPPING: "The current order status invalid to change to shipping",
+    CAN_NOT_STATUS_SHIPPED: "The current order status invalid to change to shipped",
+    CAN_NOT_STATUS_PAID: "The current order status invalid to change to paid",
+    CAN_NOT_STATUS_CANCLED: "The current order status invalid to change to cancle",
+    CAN_NOT_STATUS_SAME: "The new status must be diffrence current status",
 
     // Success
     LOGIN_SUCCESS: "Login successfully",

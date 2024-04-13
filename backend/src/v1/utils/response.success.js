@@ -5,11 +5,13 @@ export class SuccessResponse {
         message,
         statusCode = StatusCodes.OK,
         reasonStatusCode = ReasonPhrases.OK,
-        data
-    }){
+        data,
+        pagination,
+    }) {
         this.message = message ? message : reasonStatusCode;
         this.status = statusCode;
         this.data = data;
+        this.pagination = pagination;
     }
 
     send(res, headers = {}) {
@@ -24,6 +26,6 @@ export class CreatedSuccessResponse extends SuccessResponse {
         reasonStatusCode = ReasonPhrases.CREATED,
         data
     }) {
-        super({message, statusCode, reasonStatusCode, data})
+        super({ message, statusCode, reasonStatusCode, data })
     }
 }

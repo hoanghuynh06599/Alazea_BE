@@ -12,8 +12,7 @@ import {
     NotFoundErrorRequest,
     NotImplementedErrorRequest
 } from "../utils/response.error.js";
-import { MESSAGES } from "../constants/constants.js";
-
+import { MESSAGES, PAGING } from "../constants/constants.js";
 
 export const createNewCategoryService = asyncHandler(async ({ categoryName, products, userId }) => {
     const foundCategory = await FindCategoryByName({ categoryName })
@@ -34,8 +33,21 @@ export const createNewCategoryService = asyncHandler(async ({ categoryName, prod
     return newCategory
 })
 
-export const getCategoriesService = asyncHandler(async () => {
-    return await GetAllCategories()
+export const getCategoriesService = asyncHandler(async ({ filters, limit = PAGING.LIMIT, page = PAGING.PAGE }) => {
+    const { categories, totalResults, totalDocuments } = await GetAllCategories({ filters, limit, page })
+    const paging = {
+        total: totalDocuments,
+        totalResults,
+        limit: Number(limit),
+        currPage: Number(page),
+        ...(page === 1 ? {} : { prevPage: page - 1 }),
+        ...((page * limit) >= totalDocuments ? {} : { nextPage: page + 1 })
+    }
+
+    return {
+        categories,
+        paging
+    }
 })
 
 export const getCategoryByIdService = asyncHandler(async ({ id }) => {
@@ -72,7 +84,7 @@ export const deleteCategoryService = asyncHandler(async ({ id }) => {
     }
 
     const deletedCat = await DeleteCategory({ id })
-    
+
     if (!deletedCat) {
         throw new NotImplementedErrorRequest({ message: MESSAGES.CANNOT_DELETE_DATA })
     }

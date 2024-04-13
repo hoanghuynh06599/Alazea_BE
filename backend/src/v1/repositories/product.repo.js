@@ -25,11 +25,41 @@ export const FindProductByName = async ({ name }) => {
     return await Product.findOne({ name })
 }
 
-export const GetAllProducts = async () => {
-    return await Product
-        .find({deleteFlag: false})
+export const GetAllProducts = async ({ filters, sort, limit, page }) => {
+    let sortedBy;
+    const skip = (page - 1) * limit
+
+    switch (sort) {
+        case "price_expensive":
+            sortedBy = { price: -1 }
+            break;
+        case "price_cheapest":
+            sortedBy = { price: 1 }
+            break;
+        case "oldest":
+            sortedBy = { createdAt: -1 }
+            break;
+        default:
+            sortedBy = { createdAt: 1 }
+            break;
+    }
+
+    const products = await Product
+        .find(filters)
+        .sort(sortedBy)
+        .skip(skip)
+        .limit(limit)
         .populate({ path: 'category' })
         .exec()
+
+    const totalDocuments = await Product.countDocuments(filters)
+    const totalResults = products.length
+
+    return {
+        products,
+        totalResults,
+        totalDocuments
+    }
 }
 
 export const GetProductBySlug = async ({ slug }) => {
@@ -37,7 +67,7 @@ export const GetProductBySlug = async ({ slug }) => {
 }
 
 export const GetProductById = async ({ id }) => {
-    return await Product.findOne({ _id: id,  deleteFlag: false })
+    return await Product.findOne({ _id: id, deleteFlag: false })
 }
 
 export const UpdateProduct = async ({
@@ -50,9 +80,9 @@ export const UpdateProduct = async ({
     return productUpdated
 }
 
-export const DeleteProduct = async ({id}) => {
+export const DeleteProduct = async ({ id }) => {
     const query = { _id: id, deleteFlag: false }
-    let productUpdated = await Product.findOneAndUpdate(query, {deleteFlag: true}, { new: true })
+    let productUpdated = await Product.findOneAndUpdate(query, { deleteFlag: true }, { new: true })
     productUpdated.save()
     return productUpdated
 }

@@ -27,3 +27,9 @@ export const slug = (data) => {
 
     return slug;
 };
+
+export const removeUnicode = ({ text }) => {
+    const slugValue = slug(text)
+    const removeUnicode = slugValue.replaceAll("-", " ")
+    return removeUnicode
+}

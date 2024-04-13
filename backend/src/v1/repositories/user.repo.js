@@ -12,6 +12,30 @@ export const CreateNewUser = async ({
     })
 }
 
+export const GetAllUsers = async ({
+    filters,
+    limit,
+    page
+}) => {
+    const skip = (page - 1) * limit
+
+    const users = await User
+        .find(filters)
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: 1 })
+        .exec()
+
+    const totalResults = users.length
+    const totalDocuments = await User.countDocuments(filters)
+
+    return {
+        users,
+        totalResults,
+        totalDocuments
+    }
+}
+
 export const FindUserByEmail = async ({
     email
 }) => {
@@ -34,7 +58,7 @@ export const UpdateUserPassword = async ({ password, id }) => {
 
 export const UpdateUsername = async ({ username, id }) => {
     const query = { _id: id, deleteFlag: false },
-        update = { fullName: username},
+        update = { fullName: username },
         options = { new: true };
     const userUpdated = await User.findOneAndUpdate(query, update, options)
     return userUpdated

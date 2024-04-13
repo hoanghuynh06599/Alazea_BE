@@ -13,12 +13,31 @@ export const CreateCategory = async ({
     })
 }
 
-export const GetAllCategories = async () => {
-    return await Category.find({})
+export const GetAllCategories = async ({filters, limit, page}) => {
+    const skip = (page - 1) * limit
+    const categories = await Category
+        .find(filters)
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: 1 })
+        .exec()
+
+    const totalResults = categories.length
+    const totalDocuments = await Category.countDocuments(filters)
+
+    return {
+        categories,
+        totalResults,
+        totalDocuments
+    }
 }
 
 export const FindCategoryByName = async ({ categoryName }) => {
     return await Category.findOne({ name: categoryName, deleteFlag: false })
+}
+
+export const FindCategoryBySlug = async ({ slug }) => {
+    return await Category.findOne({ slug, deleteFlag: false })
 }
 
 export const FindCategoryById = async ({ id }) => {

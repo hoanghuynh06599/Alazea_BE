@@ -12,8 +12,24 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
+    shippingVendor: {
+        type: String,
+        required: true,
+        enum: ["GHTK", "VT"]
+    },
+    shippingFee: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "PROCESSING",
+        enum: ["PROCESSING", "SHIPPING", "SHIPPED", "PAID", "CANCELED"]
+    },
     createdBy: {
-        Type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
