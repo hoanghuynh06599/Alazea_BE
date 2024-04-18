@@ -22,6 +22,10 @@ const orderSchema = new Schema({
         required: true,
         default: 0
     },
+    trackingNumber: {
+        type: String,
+        required: true
+    },
     status: {
         type: String,
         required: true,

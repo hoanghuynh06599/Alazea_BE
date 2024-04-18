@@ -40,8 +40,8 @@ export const createNewOrderService = asyncHandler(async ({
     if (!productCreated) {
         throw new NotImplementedErrorRequest({ message: MESSAGES.CANNOT_CREATE_DATA })
     }
-
-    const newCartProducts = foundCart.products.filter(product => !products.includes(product.id))
+    
+    const newCartProducts = foundCart.products.filter(product => !products.includes(product))
 
     await UpdateCart({ id: cartId, products: newCartProducts })
     return productCreated
@@ -60,10 +60,8 @@ export const getAllUserOrdersService = asyncHandler(async ({ userId }) => {
 export const findOrderByIdService = asyncHandler(async ({ id, userId }) => {
     const foundUser = await FindUserById({ id: userId })
 
-    if (foundUser.id !== id || foundUser.role !== 'admin') {
-        if (!order) {
-            throw new ForbiddenErrorRequest({ message: MESSAGES.INVALID_PERMISSION })
-        }
+    if (foundUser._id !== id && foundUser.role !== 'admin') {
+        throw new ForbiddenErrorRequest({ message: MESSAGES.INVALID_PERMISSION })
     }
 
     const order = await FindOrderById({ id })

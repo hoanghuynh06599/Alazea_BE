@@ -5,7 +5,7 @@ import { MESSAGES } from "../constants/constants.js";
 
 export const updateCartCtrl = asyncHandler(async (req, res) => {
     const { id } = req.params
-    const cartUpdated = await updateCartService({ cartId: id, products: res.body })
+    const cartUpdated = await updateCartService({ cartId: id, products: req.body })
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,

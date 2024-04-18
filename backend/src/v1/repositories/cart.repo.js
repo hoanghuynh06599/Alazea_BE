@@ -13,7 +13,7 @@ export const UpdateCart = async ({ id, products }) => {
 }
 
 export const FindCartById = async ({ id }) => {
-    return Cart.find({ _id: id, deleteFlag: false }).populate("createdBy")
+    return Cart.findOne({ _id: id, deleteFlag: false }).populate("createdBy")
 }
 
 export const DeleteCart = async ({ id }) => {
