@@ -17,6 +17,7 @@ export const GetAllCategories = async ({filters, limit, page}) => {
     const skip = (page - 1) * limit
     const categories = await Category
         .find(filters)
+        .populate({ path: 'createdBy', select: ["fullName"] })
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: 1 })
@@ -33,15 +34,15 @@ export const GetAllCategories = async ({filters, limit, page}) => {
 }
 
 export const FindCategoryByName = async ({ categoryName }) => {
-    return await Category.findOne({ name: categoryName, deleteFlag: false })
+    return await Category.findOne({ name: categoryName, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
 }
 
 export const FindCategoryBySlug = async ({ slug }) => {
-    return await Category.findOne({ slug, deleteFlag: false })
+    return await Category.findOne({ slug, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
 }
 
 export const FindCategoryById = async ({ id }) => {
-    return await Category.findOne({ _id: id, deleteFlag: false })
+    return await Category.findOne({ _id: id, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
 }
 
 export const UpdateCategory = async ({ id, fields }) => {

@@ -3,6 +3,7 @@ import { changePasswordService, changeUsernameService, loginService, registerSer
 import { getUserIdFromHeader } from "../utils/auth.js"
 import { SuccessResponse } from "../utils/response.success.js"
 import { MESSAGES } from "../constants/constants.js"
+import { getUserByIdService } from "../services/user.service.js"
 
 export const registerCtrl = asyncHandler(async (req, res) => {
     const { fullName, email, password, confirmPassword } = req.body
@@ -43,10 +44,21 @@ export const changePasswordCtrl = asyncHandler(async (req, res) => {
 export const changeUsernameCtrl = asyncHandler(async (req, res) => {
     const userId = await getUserIdFromHeader(req)
     const { newUsername } = req.body
-    const result = await changeUsernameService({userId, newUsername})
+    const result = await changeUsernameService({ userId, newUsername })
 
     new SuccessResponse({
         message: MESSAGES.CHANGE_USERNAME_SUCCESS,
         data: result
+    }).send(res)
+})
+
+export const checkUserRoleCtrl = asyncHandler(async (req, res) => {
+    const clientId = await getUserIdFromHeader(req)
+
+    const user = await getUserByIdService({ id: clientId })
+
+    new SuccessResponse({
+        message: MESSAGES.CHANGE_USERNAME_SUCCESS,
+        data: user.role
     }).send(res)
 })

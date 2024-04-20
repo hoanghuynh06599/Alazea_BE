@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
-import { PAGING } from "../constants/constants.js";
-import { GetAllUsers } from "../repositories/user.repo.js";
+import { MESSAGES, PAGING } from "../constants/constants.js";
+import { FindUserById, GetAllUsers } from "../repositories/user.repo.js";
+import { NotFoundErrorRequest } from "../utils/response.error.js";
 
 export const getAllUsesService = asyncHandler(async ({ filters, limit = PAGING.LIMIT, page = PAGING.PAGE }) => {
     const { users, totalResults, totalDocuments } = await GetAllUsers({ filters, limit, page })
@@ -19,4 +20,14 @@ export const getAllUsesService = asyncHandler(async ({ filters, limit = PAGING.L
         paging
     }
 
+})
+
+export const getUserByIdService = asyncHandler(async ({ id }) => {
+    const foundUsers = await FindUserById({ id })
+
+    if (!foundUsers) {
+        throw new NotFoundErrorRequest({ message: MESSAGES.DATA_NOT_FOUND })
+    }
+
+    return foundUsers
 })

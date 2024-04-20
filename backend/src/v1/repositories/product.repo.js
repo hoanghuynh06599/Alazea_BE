@@ -22,7 +22,7 @@ export const CreateNewProduct = async ({
 }
 
 export const FindProductByName = async ({ name }) => {
-    return await Product.findOne({ name })
+    return await Product.findOne({ name }).populate({ path: 'createdBy' })
 }
 
 export const GetAllProducts = async ({ filters, sort, limit, page }) => {
@@ -46,6 +46,7 @@ export const GetAllProducts = async ({ filters, sort, limit, page }) => {
 
     const products = await Product
         .find(filters)
+        .populate({ path: 'createdBy', select: ["fullName"] })
         .sort(sortedBy)
         .skip(skip)
         .limit(limit)
@@ -63,11 +64,11 @@ export const GetAllProducts = async ({ filters, sort, limit, page }) => {
 }
 
 export const GetProductBySlug = async ({ slug }) => {
-    return await Product.findOne({ slug, deleteFlag: false })
+    return await Product.findOne({ slug, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
 }
 
 export const GetProductById = async ({ id }) => {
-    return await Product.findOne({ _id: id, deleteFlag: false })
+    return await Product.findOne({ _id: id, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
 }
 
 export const UpdateProduct = async ({
