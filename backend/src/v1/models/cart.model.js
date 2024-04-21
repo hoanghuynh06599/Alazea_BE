@@ -17,7 +17,7 @@ const cartSchema = new Schema({
         type: Boolean,
         default: false,
     },
-})
+}, { timestamps: true })
 
 const Cart = mongoose.model("Cart", cartSchema)
 
