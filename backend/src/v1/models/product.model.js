@@ -22,6 +22,10 @@ const productSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    imagePublicId: {
+        type: String,
+        required: true,
+    },
     image: {
         type: String,
         required: true,

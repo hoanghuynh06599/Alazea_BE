@@ -60,7 +60,7 @@ export const getCategoryByIdService = asyncHandler(async ({ id }) => {
     return foundCategory
 })
 
-export const updateCategoryByService = asyncHandler(async ({ id, updateField }) => {
+export const updateCategoryByIdService = asyncHandler(async ({ id, updateField }) => {
     const foundCategory = await FindCategoryById({ id })
 
     if (!foundCategory) {

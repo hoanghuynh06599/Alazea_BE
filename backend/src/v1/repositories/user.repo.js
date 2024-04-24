@@ -2,13 +2,13 @@ import User from "../models/user.model.js"
 
 export const CreateNewUser = async ({
     fullName,
-    email,
     password,
+    phone
 }) => {
     return await User.create({
         fullName,
-        email,
         password,
+        phone
     })
 }
 
@@ -21,6 +21,7 @@ export const GetAllUsers = async ({
 
     const users = await User
         .find(filters)
+        .select('-password')
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: 1 })
@@ -36,16 +37,16 @@ export const GetAllUsers = async ({
     }
 }
 
-export const FindUserByEmail = async ({
-    email
+export const FindUserByPhone = async ({
+    phone
 }) => {
-    return await User.findOne({ email })
+    return await User.findOne({ phone, deleteFlag: false })
 }
 
 export const FindUserById = async ({
     id
 }) => {
-    return await User.findOne({ _id: id })
+    return await User.findOne({ _id: id, deleteFlag: false })
 }
 
 export const UpdateUserPassword = async ({ password, id }) => {

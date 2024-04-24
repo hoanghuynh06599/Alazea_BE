@@ -6,9 +6,9 @@ import { MESSAGES } from "../constants/constants.js"
 import { getUserByIdService } from "../services/user.service.js"
 
 export const registerCtrl = asyncHandler(async (req, res) => {
-    const { fullName, email, password, confirmPassword } = req.body
+    const { fullName, password, confirmPassword, phone } = req.body
     const result = await registerService({
-        fullName, email, password, confirmPassword
+        fullName, password, confirmPassword, phone
     })
 
     new SuccessResponse({
@@ -18,9 +18,10 @@ export const registerCtrl = asyncHandler(async (req, res) => {
 })
 
 export const loginCtrl = asyncHandler(async (req, res) => {
-    const { email, password } = req.body
+    const { phone, password } = req.body
+    console.log(req.body);
     const result = await loginService({
-        email,
+        phone,
         password
     })
 

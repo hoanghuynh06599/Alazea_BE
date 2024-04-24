@@ -4,7 +4,7 @@ import {
     deleteCategoryService,
     getCategoriesService,
     getCategoryByIdService,
-    updateCategoryByService
+    updateCategoryByIdService
 } from "../services/category.service.js"
 import { SuccessResponse } from "../utils/response.success.js"
 import { MESSAGES } from "../constants/constants.js"
@@ -58,7 +58,7 @@ export const findCategoryByIdCtrl = asyncHandler(async (req, res) => {
 
 export const updateCategoryCtrl = asyncHandler(async (req, res) => {
     const { id } = req.params
-    const result = await updateCategoryByService({
+    const result = await updateCategoryByIdService({
         id,
         updateField: req.body
     })

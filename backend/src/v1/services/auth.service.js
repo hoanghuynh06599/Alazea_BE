@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import { createToken } from "../utils/auth.js";
 import {
     CreateNewUser,
-    FindUserByEmail,
     FindUserById,
+    FindUserByPhone,
     UpdateUserPassword,
     UpdateUsername
 } from "../repositories/user.repo.js";
@@ -21,11 +21,11 @@ import { MESSAGES } from "../constants/constants.js";
 
 export const registerService = asyncHandler(async ({
     fullName,
-    email,
     password,
+    phone,
     confirmPassword
 }) => {
-    const foundUser = await FindUserByEmail({ email })
+    const foundUser = await FindUserByPhone({ phone })
 
     if (foundUser) {
         throw new ConflictErrorRequest({ message: MESSAGES.USER_EXISTS })
@@ -37,13 +37,13 @@ export const registerService = asyncHandler(async ({
 
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-    const newUser = await CreateNewUser({ fullName, email, password: hash })
+    const newUser = await CreateNewUser({ fullName, password: hash, phone })
 
     if (newUser) {
         const tokens = await createToken({
             payload: {
                 userId: newUser._id,
-                email: newUser.email
+                phone: newUser.phone
             }
         })
 
@@ -63,16 +63,16 @@ export const registerService = asyncHandler(async ({
     }
 })
 
-export const loginService = asyncHandler(async ({ email, password }) => {
-    const foundUser = await FindUserByEmail({ email })
+export const loginService = asyncHandler(async ({ phone, password }) => {
+    const foundUser = await FindUserByPhone({ phone })
 
     if (!foundUser) {
-        throw new UnauthorizedErrorRequest(MESSAGES.LOGIN_FAILED)
+        throw new UnauthorizedErrorRequest({message: MESSAGES.LOGIN_FAILED})
     }
 
     const matchPassword = await bcrypt.compare(password, foundUser.password)
     if (!matchPassword) {
-        throw new UnauthorizedErrorRequest(MESSAGES.LOGIN_FAILED)
+        throw new UnauthorizedErrorRequest({message: MESSAGES.LOGIN_FAILED})
     }
 
     const tokens = await createToken({

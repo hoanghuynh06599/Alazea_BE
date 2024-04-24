@@ -7,7 +7,8 @@ export const CreateNewProduct = async ({
     description,
     price,
     discount,
-    createdBy
+    createdBy,
+    imagePublicId
 }) => {
     const productCreated = await Product.create({
         name,
@@ -16,7 +17,8 @@ export const CreateNewProduct = async ({
         description,
         price,
         discount,
-        createdBy
+        createdBy,
+        imagePublicId
     })
     return productCreated
 }
@@ -46,6 +48,7 @@ export const GetAllProducts = async ({ filters, sort, limit, page }) => {
 
     const products = await Product
         .find(filters)
+        .select('-imagePublicId')
         .populate({ path: 'createdBy', select: ["fullName"] })
         .sort(sortedBy)
         .skip(skip)
@@ -84,6 +87,7 @@ export const UpdateProduct = async ({
 export const DeleteProduct = async ({ id }) => {
     const query = { _id: id, deleteFlag: false }
     let productUpdated = await Product.findOneAndUpdate(query, { deleteFlag: true }, { new: true })
+    console.log({productUpdated});
     productUpdated.save()
     return productUpdated
 }

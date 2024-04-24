@@ -15,7 +15,7 @@ export const MESSAGES = {
     CANNOT_DELETE_DATA: "Can not delete data",
     PASSWORD_NOT_MATCH: "Your password does not match",
     CAN_NOT_GENERATE_TOKEN: "Can not generate a new token, please try again",
-    LOGIN_FAILED: "Username is not found and/or password is incorrect",
+    LOGIN_FAILED: "Phone is not found and/or password is incorrect",
     INVALID_PERMISSION: "Not have access. Please contact Admin",
     NO_PERMISSION: "No permissions to perform",
     UNAUTHORIZED: "Token is expired or invalid",
