@@ -9,6 +9,7 @@ import cartRoute from "./routes/cart.routes.js";
 import orderRoute from "./routes/order.routes.js";
 import userRoute from "./routes/user.routes.js";
 import errorHandler from "./middlewares/errorHandle.js"
+import shippingAddressRoute from "./routes/shippingAddress.routes.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/v1/products", productRoute)
 app.use("/api/v1/cart", cartRoute)
 app.use("/api/v1/orders", orderRoute)
 app.use("/api/v1/users", userRoute)
+app.use("/api/v1/shipping-address", shippingAddressRoute)
 app.use(errorHandler);
 
 app.get("/api/v1/healthCheck", (req, res) => {
