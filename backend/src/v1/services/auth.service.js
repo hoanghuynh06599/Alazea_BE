@@ -65,12 +65,11 @@ export const registerService = asyncHandler(async ({
 
 export const loginService = asyncHandler(async ({ phone, password }) => {
     const foundUser = await FindUserByPhone({ phone })
-
     if (!foundUser) {
         throw new UnauthorizedErrorRequest({message: MESSAGES.LOGIN_FAILED})
     }
 
-    const matchPassword = await bcrypt.compare(password, foundUser.password)
+    const matchPassword = await bcrypt.compareSync(password, foundUser.password)
     if (!matchPassword) {
         throw new UnauthorizedErrorRequest({message: MESSAGES.LOGIN_FAILED})
     }

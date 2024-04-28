@@ -40,7 +40,7 @@ export const GetAllUsers = async ({
 export const FindUserByPhone = async ({
     phone
 }) => {
-    return await User.findOne({ phone, deleteFlag: false }).select('-password')
+    return await User.findOne({ phone, deleteFlag: false })
 }
 
 export const FindUserById = async ({

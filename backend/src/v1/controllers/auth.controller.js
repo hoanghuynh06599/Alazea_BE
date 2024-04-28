@@ -19,7 +19,6 @@ export const registerCtrl = asyncHandler(async (req, res) => {
 
 export const loginCtrl = asyncHandler(async (req, res) => {
     const { phone, password } = req.body
-    console.log(req.body);
     const result = await loginService({
         phone,
         password
