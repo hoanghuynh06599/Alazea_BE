@@ -38,15 +38,14 @@ export const getUserIdFromHeader = (req) => {
 
 export const getAccessTokenFromHeader = (req) => {
     let token = req?.headers?.["authorization"]
-
     if (!token) {
         throw new ForbiddenErrorRequest({ message: MESSAGES.UNAUTHORIZED })
     }
     token = token.split(" ")
-
+    
     const prefix = token[0]
     const accessToken = token[1]
-
+    
     if (!accessToken) {
         throw new ForbiddenErrorRequest({ message: MESSAGES.UNAUTHORIZED })
     }

@@ -15,8 +15,8 @@ orderRoute.use(isLogin)
 orderRoute.get("/user", getAllUserOrdersCtrl)
 orderRoute.get("/:id", findOrderByIdCtrl)
 orderRoute.patch("/:id", updateOrderStatusCtrl)
-orderRoute.use(isAdmin);
 orderRoute.post("/", createNewOrderCtrl)
+orderRoute.use(isAdmin);
 orderRoute.get("/", getAllOrdersCtrl)
 
 export default orderRoute

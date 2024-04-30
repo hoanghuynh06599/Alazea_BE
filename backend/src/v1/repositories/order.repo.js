@@ -5,7 +5,8 @@ export const CreateOrder = async ({
     totalPayment,
     shippingVendor,
     shippingFee,
-    createdBy
+    createdBy,
+    shippingAddress
 }) => {
     const countOrders = await Order.countDocuments();
     let trackingNumber = `ALZ${countOrders}.${shippingVendor}`
@@ -16,7 +17,8 @@ export const CreateOrder = async ({
         shippingVendor,
         shippingFee,
         createdBy,
-        trackingNumber
+        trackingNumber,
+        shippingAddress
     })
 }
 

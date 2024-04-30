@@ -1,11 +1,12 @@
 import asyncHandler from "express-async-handler";
-import { deleteCartService, getCartByIdService, updateCartService } from "../services/cart.service.js";
+import { deleteCartService, getUserCartService, updateCartService } from "../services/cart.service.js";
 import { SuccessResponse } from "../utils/response.success.js";
 import { MESSAGES } from "../constants/constants.js";
+import { getUserIdFromHeader } from "../utils/auth.js";
 
 export const updateCartCtrl = asyncHandler(async (req, res) => {
-    const { id } = req.params
-    const cartUpdated = await updateCartService({ cartId: id, products: req.body })
+    const userId = await getUserIdFromHeader(req)
+    const cartUpdated = await updateCartService({ userId, products: req.body })
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,
@@ -14,8 +15,8 @@ export const updateCartCtrl = asyncHandler(async (req, res) => {
 })
 
 export const deleteCartCtrl = asyncHandler(async (req, res) => {
-    const { id } = req.params
-    const cartUpdated = await deleteCartService({ cartId: id })
+    const userId = await getUserIdFromHeader(req)
+    const cartUpdated = await deleteCartService({ userId })
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,
@@ -23,9 +24,9 @@ export const deleteCartCtrl = asyncHandler(async (req, res) => {
     }).send(res)
 })
 
-export const findCartByIdCtrl = asyncHandler(async (req, res) => {
-    const { id } = req.params
-    const foundCart = await getCartByIdService({ cartId: id })
+export const findUserCartByCtrl = asyncHandler(async (req, res) => {
+    const userId = await getUserIdFromHeader(req)
+    const foundCart = await getUserCartService({ userId })
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,

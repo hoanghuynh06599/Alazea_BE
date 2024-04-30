@@ -16,7 +16,8 @@ export const createNewOrderCtrl = asyncHandler(async (req, res) => {
         totalPayment,
         shippingVendor,
         shippingFee,
-        cartId
+        cartId,
+        shippingAddress
     } = req.body
     const clientId = getUserIdFromHeader(req)
 
@@ -26,7 +27,8 @@ export const createNewOrderCtrl = asyncHandler(async (req, res) => {
         shippingVendor,
         shippingFee,
         cartId,
-        createdBy: clientId
+        createdBy: clientId,
+        shippingAddress
     })
 
     new CreatedSuccessResponse({
@@ -69,6 +71,7 @@ export const updateOrderStatusCtrl = asyncHandler(async (req, res) => {
     const { id } = req.params
     const { status } = req.body
     const result = await updateOrderStatusService({ id, status })
+
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,

@@ -71,7 +71,10 @@ export const GetProductBySlug = async ({ slug }) => {
 }
 
 export const GetProductById = async ({ id }) => {
-    return await Product.findOne({ _id: id, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
+    return await Product.findOne({ _id: id, deleteFlag: false })
+    .populate({ path: 'createdBy', select: ["fullName"] })
+    .populate({ path: 'category', select: ["name"] })
+    
 }
 
 export const UpdateProduct = async ({

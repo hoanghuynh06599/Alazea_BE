@@ -40,6 +40,31 @@ export const createNewShippingAddressService = asyncHandler(async ({
     return newShippingAddress
 })
 
+export const checkShippingAddressService = asyncHandler(async ({
+    province,
+    district,
+    ward,
+    street,
+    no,
+    createdBy
+}) => {
+    const foundShippingAddress = await GetShippingAddressByAllFields({
+        province,
+        district,
+        ward,
+        street,
+        no,
+        createdBy
+    })
+
+    if (!foundShippingAddress) {
+        throw new ForbiddenErrorRequest({ message: MESSAGES.DATA_NOT_FOUND })
+    }
+
+
+    return foundShippingAddress
+})
+
 export const getShippingAddressByUserService = asyncHandler(async ({ userId }) => {
     return await GetShippingAddressByUser({ userId })
 })

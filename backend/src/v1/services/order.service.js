@@ -21,7 +21,8 @@ export const createNewOrderService = asyncHandler(async ({
     shippingVendor,
     shippingFee,
     createdBy,
-    cartId
+    cartId,
+    shippingAddress
 }) => {
     const foundCart = await FindCartById({ id: cartId });
 
@@ -34,7 +35,8 @@ export const createNewOrderService = asyncHandler(async ({
         totalPayment,
         shippingVendor,
         shippingFee,
-        createdBy
+        createdBy,
+        shippingAddress
     })
 
     if (!productCreated) {

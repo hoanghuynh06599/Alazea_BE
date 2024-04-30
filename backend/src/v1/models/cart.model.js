@@ -5,6 +5,7 @@ const { Schema } =  mongoose;
 const cartSchema = new Schema({
     products: {
         type: Array,
+        ref: "Product",
         default: [],
         required: true,
     },

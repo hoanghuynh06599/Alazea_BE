@@ -32,6 +32,11 @@ const orderSchema = new Schema({
         default: "PROCESSING",
         enum: ["PROCESSING", "SHIPPING", "SHIPPED", "PAID", "CANCELED"]
     },
+    shippingAddress: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ShippingAddress",
+        required: true
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

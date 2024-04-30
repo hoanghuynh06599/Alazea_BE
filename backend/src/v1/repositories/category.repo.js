@@ -18,7 +18,7 @@ export const GetAllCategories = async ({filters, limit, page}) => {
     const categories = await Category
         .find(filters)
         .populate({ path: 'createdBy', select: ["fullName"] })
-        .populate({ path: 'products', select: ["name"] })
+        .populate({ path: 'products', select: ["name", "image"] })
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: 1 })
