@@ -46,7 +46,7 @@ export const FindUserByPhone = async ({
 export const FindUserById = async ({
     id
 }) => {
-    return await User.findOne({ _id: id, deleteFlag: false }).select('-password')
+    return await User.findOne({ _id: id, deleteFlag: false })
 }
 
 export const UpdateUserPassword = async ({ password, id }) => {

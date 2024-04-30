@@ -93,7 +93,7 @@ export const loginService = asyncHandler(async ({ phone, password }) => {
 
 export const changePasswordService = asyncHandler(async ({ userId, newPassword, currPassword }) => {
     const foundUser = await FindUserById({ id: userId })
-
+    
     if (!foundUser) {
         throw new NotFoundErrorRequest({ message: MESSAGES.USER_NOT_FOUND })
     }
