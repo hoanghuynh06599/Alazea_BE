@@ -17,7 +17,6 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        required: true,
         enum: ["admin", "user"]
     },
     deleteFlag: {
@@ -33,7 +32,7 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 userSchema.pre("save", function(next) {
-    if(!this.role.trim().length) {
+    if(!this.role) {
         this.role = "user"
     }
     next()
