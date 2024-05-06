@@ -38,7 +38,7 @@ export const GetAllProducts = async ({ filters, sort, limit, page }) => {
         case "price_cheapest":
             sortedBy = { price: 1 }
             break;
-        case "oldest":
+        case "latest":
             sortedBy = { createdAt: -1 }
             break;
         default:
