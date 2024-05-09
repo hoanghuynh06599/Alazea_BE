@@ -6,7 +6,7 @@ import { getUserIdFromHeader } from "../utils/auth.js";
 
 export const updateCartCtrl = asyncHandler(async (req, res) => {
     const userId = await getUserIdFromHeader(req)
-    const cartUpdated = await updateCartService({ userId, products: req.body })
+    const cartUpdated = await updateCartService({ userId, products: req.body.newProducts })
 
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,
