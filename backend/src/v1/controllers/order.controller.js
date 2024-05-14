@@ -5,6 +5,7 @@ import {
     findOrderByIdService,
     getAllOrdersService,
     getAllUserOrdersService,
+    getSummaryInfoOfUserOrdersService,
     updateOrderStatusService
 } from "../services/order.service.js";
 import { CreatedSuccessResponse, SuccessResponse } from "../utils/response.success.js";
@@ -48,7 +49,8 @@ export const getAllOrdersCtrl = asyncHandler(async (req, res) => {
 
 export const getAllUserOrdersCtrl = asyncHandler(async (req, res) => {
     const userId = await getUserIdFromHeader(req)
-    const orders = await getAllUserOrdersService({ userId })
+    const { status } = req.query
+    const orders = await getAllUserOrdersService({ userId, status })
 
     new SuccessResponse({
         message: MESSAGES.GET_DATA_SUCCESS,
@@ -76,5 +78,15 @@ export const updateOrderStatusCtrl = asyncHandler(async (req, res) => {
     new SuccessResponse({
         message: MESSAGES.UPDATE_DATA_SUCCESS,
         data: result
+    }).send(res)
+})
+
+export const getUserOrdersSummaryCtrl = asyncHandler(async (req, res) => {
+    const userId = await getUserIdFromHeader(req)
+    const summary = await getSummaryInfoOfUserOrdersService({ userId })
+    
+    new SuccessResponse({
+        message: MESSAGES.GET_DATA_SUCCESS,
+        data: summary
     }).send(res)
 })

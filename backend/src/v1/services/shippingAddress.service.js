@@ -65,8 +65,8 @@ export const checkShippingAddressService = asyncHandler(async ({
     return foundShippingAddress
 })
 
-export const getShippingAddressByUserService = asyncHandler(async ({ userId }) => {
-    return await GetShippingAddressByUser({ userId })
+export const getShippingAddressByUserService = asyncHandler(async ({ userId , id }) => {
+    return await GetShippingAddressByUser({ userId, id })
 })
 
 export const getAllUserShippingAddressService = asyncHandler(async ({ userId }) => {

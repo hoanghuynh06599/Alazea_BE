@@ -54,8 +54,8 @@ export const getAllOrdersService = asyncHandler(async () => {
     return orders
 })
 
-export const getAllUserOrdersService = asyncHandler(async ({ userId }) => {
-    const orders = await GetAllUserOrders({ userId })
+export const getAllUserOrdersService = asyncHandler(async ({ userId, status }) => {
+    const orders = await GetAllUserOrders({ userId, status })
     return orders
 })
 
@@ -127,4 +127,24 @@ export const updateOrderStatusService = asyncHandler(async ({ id, status }) => {
     }
 
     return orderUpdated
+})
+
+export const getSummaryInfoOfUserOrdersService = asyncHandler(async ({ userId }) => {
+    const info = {
+        shippingOrders: 0,
+        shippedOrders: 0,
+        toltalPayment: 0,
+        totalOrders: 0,
+    }
+    const orders = await GetAllUserOrders({ userId });
+    orders.forEach((order) => {
+        if(order.status === "SHIPPING") {
+            info.shippingOrders += 1
+        } else if (order.status === "SHIPPED" || order.status === "PAID") {
+            info.shippedOrders += 1
+            info.toltalPayment += order.totalPayment
+        }
+    })
+    info.totalOrders = orders.length
+    return info
 })

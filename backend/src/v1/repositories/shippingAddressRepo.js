@@ -18,9 +18,12 @@ export const CreateNewShippingAddress = async ({
     })
 }
 
-export const GetShippingAddressByUser = async ({ userId }) => {
-    console.log({userId});
-    return await ShippingAddress.find({ createdBy: userId, deleteFlag: false })
+export const GetShippingAddressByUser = async ({ userId, id }) => {
+    if(id) {
+        return await ShippingAddress.findOne({ createdBy: userId, _id: id, deleteFlag: false })
+    } else {
+        return await ShippingAddress.find({ createdBy: userId, deleteFlag: false })
+    }
 }
 
 export const GetUserShippingAddressById = async ({ userId, shippingAddressId }) => {

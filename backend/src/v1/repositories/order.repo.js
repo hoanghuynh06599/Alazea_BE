@@ -31,10 +31,22 @@ export const GetAllOrders = async () => {
     return orders
 }
 
-export const GetAllUserOrders = async ({ userId }) => {
-    const orders = await Order.find({ createdBy: userId, deleteFlag: false })
-        .populate({ path: 'createdBy', select: ["fullName"] })
-        .populate({ path: 'products' })
+export const GetAllUserOrders = async ({ userId, status }) => {
+    const query = {
+        createdBy: userId,
+        deleteFlag: false,
+        ...(status ? { status } : {})
+    }
+    const orders = await Order.find(query)
+        .populate({ path: 'createdBy', select: ["fullName", "phone"] })
+        .populate({ 
+            path: 'products', 
+            populate : {
+                path : 'category',
+                select: ["name"]
+            }
+        })
+        .populate({ path: 'shippingAddress' })
         .exec()
 
     return orders
@@ -42,8 +54,15 @@ export const GetAllUserOrders = async ({ userId }) => {
 
 export const FindOrderById = async ({ id }) => {
     const order = await Order.findOne({ _id: id, deleteFlag: false })
-        .populate({ path: 'createdBy', select: ["fullName"] })
-        .populate({ path: 'products' })
+        .populate({ path: 'createdBy', select: ["fullName", "phone"] })
+        .populate({ 
+            path: 'products', 
+            populate : {
+                path : 'category',
+                select: ["name"]
+            }
+        })
+        .populate({ path: 'shippingAddress' })
         .exec()
 
     return order

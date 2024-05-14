@@ -67,7 +67,9 @@ export const GetAllProducts = async ({ filters, sort, limit, page }) => {
 }
 
 export const GetProductBySlug = async ({ slug }) => {
-    return await Product.findOne({ slug, deleteFlag: false }).populate({ path: 'createdBy', select: ["fullName"] })
+    return await Product.findOne({ slug, deleteFlag: false })
+    .populate({ path: 'createdBy', select: ["fullName"] })
+    .populate({ path: 'category' })
 }
 
 export const GetProductById = async ({ id }) => {

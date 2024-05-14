@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { checkShippingAddressService, createNewShippingAddressService, deleteShippingAddressService, getShippingAddressByUserService } from "../services/shippingAddress.service.js";
-import { CreatedSuccessResponse } from "../utils/response.success.js";
+import { CreatedSuccessResponse, SuccessResponse } from "../utils/response.success.js";
 import { MESSAGES } from "../constants/constants.js";
 import { getUserIdFromHeader } from "../utils/auth.js";
 
@@ -56,9 +56,10 @@ export const checkShippingAddressCtrl = asyncHandler(async (req, res) => {
 
 export const getShippingAddressByUserCtrl = asyncHandler(async (req, res) => {
     const userId = await getUserIdFromHeader(req)
-    const shippingAddress = await getShippingAddressByUserService({ userId })
+    const { id } = req.query
+    const shippingAddress = await getShippingAddressByUserService({ userId, id })
 
-    new CreatedSuccessResponse({
+    new SuccessResponse({
         message: MESSAGES.GET_DATA_SUCCESS,
         data: shippingAddress
     }).send(res)
