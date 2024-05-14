@@ -77,7 +77,7 @@ export const loginService = asyncHandler(async ({ phone, password }) => {
     const tokens = await createToken({
         payload: {
             userId: foundUser._id,
-            email: foundUser.email,
+            phone: foundUser.phone,
         }
     })
 

@@ -85,8 +85,8 @@ export const getProductsService = asyncHandler(async ({ filters, sort, limit = P
         totalResults,
         limit: Number(limit),
         currPage: Number(page),
-        ...(page === 1 ? {} : { prevPage: page - 1 }),
-        ...((page * limit) >= totalDocuments ? {} : { nextPage: page + 1 })
+        ...(page === 1 ? {} : { prevPage: Number(page) - 1 }),
+        ...((page * limit) >= totalDocuments ? {} : { nextPage: Number(page) + 1 })
     }
 
     return {
