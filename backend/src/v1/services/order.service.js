@@ -25,7 +25,6 @@ export const createNewOrderService = asyncHandler(async ({
     shippingAddress
 }) => {
     const foundCart = await FindCartById({ id: cartId });
-
     if (!foundCart) {
         throw new NotFoundErrorRequest({ message: MESSAGES.DATA_NOT_FOUND })
     }
@@ -61,8 +60,7 @@ export const getAllUserOrdersService = asyncHandler(async ({ userId, status }) =
 
 export const findOrderByIdService = asyncHandler(async ({ id, userId }) => {
     const foundUser = await FindUserById({ id: userId })
-
-    if (foundUser._id !== id && foundUser.role !== 'admin') {
+    if (foundUser._id.toString() !== userId && foundUser.role !== 'admin') {
         throw new ForbiddenErrorRequest({ message: MESSAGES.INVALID_PERMISSION })
     }
 

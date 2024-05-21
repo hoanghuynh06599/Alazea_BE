@@ -29,6 +29,17 @@ export class ForbiddenErrorRequest extends BaseErrorResponse {
     }
 }
 
+export class ForbiddenErrorWFieldResponse extends ForbiddenErrorRequest {
+    constructor({
+        field,
+        message = ReasonPhrases.FORBIDDEN,
+        status = StatusCodes.FORBIDDEN
+    }) {
+        super({ message, status })
+        this.field = field
+    }
+}
+
 export class UnauthorizedErrorRequest extends BaseErrorResponse {
     constructor({
         message = ReasonPhrases.UNAUTHORIZED,

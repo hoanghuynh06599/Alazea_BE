@@ -9,7 +9,6 @@ export const updateCartService = asyncHandler(async ({ userId, products }) => {
     if (!foundCart) {
         throw new NotFoundErrorRequest({ message: MESSAGES.DATA_NOT_FOUND })
     }
-
     const cartUpdated = await UpdateCart({ id: foundCart._id, products })
     if (!cartUpdated) {
         throw new NotImplementedErrorRequest({ message: MESSAGES.CANNOT_UPDATE_DATA })

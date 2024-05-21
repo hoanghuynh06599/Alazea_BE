@@ -12,6 +12,7 @@ import { CreateNewCart } from "../repositories/cart.repo.js";
 import {
     ConflictErrorRequest,
     ForbiddenErrorRequest,
+    ForbiddenErrorWFieldResponse,
     NotFoundErrorRequest,
     NotImplementedErrorRequest,
     UnauthorizedErrorRequest
@@ -32,7 +33,18 @@ export const registerService = asyncHandler(async ({
     }
 
     if (password !== confirmPassword) {
-        throw new ForbiddenErrorRequest({ message: MESSAGES.PASSWORD_NOT_MATCH })
+        throw new ForbiddenErrorWFieldResponse({ 
+            message: MESSAGES.PASSWORD_NOT_MATCH,
+            field: "password"
+        })
+    }
+    
+    const phoneRegex = /^0\d*$/
+    if(!phoneRegex.test(phone.value) || phone.value.length < 10) {
+        throw new ForbiddenErrorWFieldResponse({ 
+            message: MESSAGES.INCORRECT_PHONE_FORMAT,
+            field: 'phone'
+        })
     }
 
     const salt = await bcrypt.genSalt(10)

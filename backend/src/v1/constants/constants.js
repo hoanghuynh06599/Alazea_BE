@@ -9,6 +9,7 @@ export const MESSAGES = {
     USER_EXISTS: "User already exists",
     USER_NOT_FOUND: "User does not exist",
     DATA_EXISTS: "Data already exists",
+    INCORRECT_PHONE_FORMAT: "Phone number must be at least 10 characters and start with 0",
     DATA_NOT_FOUND: "Data not found",
     CANNOT_CREATE_DATA: "Can not create new data",
     CANNOT_UPDATE_DATA: "Can not update data",

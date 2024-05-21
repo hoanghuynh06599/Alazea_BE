@@ -54,11 +54,16 @@ export const changeUsernameCtrl = asyncHandler(async (req, res) => {
 
 export const checkUserRoleCtrl = asyncHandler(async (req, res) => {
     const clientId = await getUserIdFromHeader(req)
-
     const user = await getUserByIdService({ id: clientId })
 
     new SuccessResponse({
         message: MESSAGES.CHANGE_USERNAME_SUCCESS,
         data: user.role
+    }).send(res)
+})
+
+export const checkTokenCtrl = asyncHandler(async (req, res) => {
+    new SuccessResponse({
+        message: MESSAGES.LOGIN_SUCCESS,
     }).send(res)
 })
