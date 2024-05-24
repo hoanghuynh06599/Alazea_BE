@@ -40,7 +40,7 @@ export const registerService = asyncHandler(async ({
     }
     
     const phoneRegex = /^0\d*$/
-    if(!phoneRegex.test(phone.value) || phone.value.length < 10) {
+    if(!phoneRegex.test(phone) || phone.length < 10) {
         throw new ForbiddenErrorWFieldResponse({ 
             message: MESSAGES.INCORRECT_PHONE_FORMAT,
             field: 'phone'
